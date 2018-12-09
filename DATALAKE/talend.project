@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:TalendProperties="http://www.talend.org/properties">
+  <TalendProperties:Project xmi:id="_YrOzgPsREeiS1akDFQA95Q" label="DATALAKE" description="" language="java" technicalLabel="DATALAKE" local="true" author="_YrOzgfsREeiS1akDFQA95Q" productVersion="Talend Open Studio for Data Integration-7.1.1.20181026_1147" itemsRelationVersion="1.3" bigData="false">
+    <migrationTask xmi:id="_Yxjd8PsREeiS1akDFQA95Q" id="org.talend.repository.model.migration.CheckProductVersionMigrationTask" breaks="7.1.0" version="7.1.1"/>
+  </TalendProperties:Project>
+  <TalendProperties:User xmi:id="_YrOzgfsREeiS1akDFQA95Q" login="user@talend.com" password="D41D8CD98F00B204E9800998ECF8427E"/>
+  <TalendProperties:User xmi:id="_0nLi8Pu_EeiTvM6hPlcLCQ" login="lucas.vieira94@outlook.com" password="D41D8CD98F00B204E9800998ECF8427E"/>
+</xmi:XMI>
