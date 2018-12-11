@@ -185,6 +185,7 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJava_1" show="false"/>
     <elementParameter field="MEMO_JAVA" name="CODE" value="context.parquetSchema = ParquetRoutine.getSchema(&#xA;&#x9;new ParquetRoutine.SchemaField(&quot;id&quot;, &quot;int&quot;, false),&#xA;&#x9;new ParquetRoutine.SchemaField(&quot;name&quot;, &quot;string&quot;, false));"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="import org.apache.avro.Schema;"/>
+    <elementParameter field="TEXT" name="LABEL" value="CreateParquetSchema"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tJava_1">
       <column comment="" key="false" length="-1" name="id" nullable="false" pattern="" precision="-1" sourceType="" type="id_Integer" originalLength="-1" usefulColumn="true"/>
@@ -193,7 +194,7 @@
       <column comment="" key="false" length="-1" name="gender" nullable="false" pattern="" precision="-1" sourceType="" type="id_String" originalLength="-1" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tSortRow" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="320" posY="96">
+  <node componentName="tSortRow" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="352" posY="96">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tSortRow_1" show="false"/>
     <elementParameter field="TABLE" name="CRITERIA">
       <elementValue elementRef="COLNAME" value="age"/>
@@ -207,6 +208,7 @@
     <elementParameter field="DIRECTORY" name="TEMPFILE" value="&quot;/Users/lucasvieiradasilva/Projetos/EmDia/emdia-talend/temp&quot;" show="false"/>
     <elementParameter field="CHECK" name="CREATEDIR" value="true" show="false"/>
     <elementParameter field="TEXT" name="EXTERNAL_SORT_BUFFERSIZE" value="1000000" show="false"/>
+    <elementParameter field="TEXT" name="LABEL" value="SortByPartitionKeys"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tSortRow_1">
       <column comment="" key="false" length="-1" name="id" nullable="false" pattern="" precision="-1" sourceType="" type="id_Integer" originalLength="-1" usefulColumn="true"/>
@@ -215,17 +217,19 @@
       <column comment="" key="false" length="-1" name="gender" nullable="false" pattern="" precision="-1" sourceType="" type="id_String" originalLength="-1" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="480" posY="96">
+  <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="512" posY="96">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaRow_1" show="false"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="context.currentParquetRow = new GenericData.Record((Schema) context.parquetSchema);&#xA;((GenericData.Record) context.currentParquetRow).put(&quot;id&quot;, row3.getId());&#xA;((GenericData.Record) context.currentParquetRow).put(&quot;name&quot;, row3.name);&#xA;&#xA;if (context.currentPartition.equals(String.format(&quot;%s|%s&quot;, row3.age, row3.gender))) {&#xA;&#x9;ParquetWriter&lt;GenericData.Record> writer = (ParquetWriter&lt;GenericData.Record>) context.parquetWriter;&#xA;&#x9;writer.write((GenericData.Record) context.currentParquetRow);&#xA;} else {&#xA;&#x9;if (context.parquetWriter instanceof ParquetWriter&lt;?>) {&#xA;&#x9;&#x9;ParquetRoutine.closeWriter((ParquetWriter&lt;GenericData.Record>) context.parquetWriter);&#xA;&#x9;}&#xA;&#x9;&#xA;&#x9;LinkedHashMap&lt;String, String> partitionMap = new LinkedHashMap&lt;String, String>();&#xA;&#x9;&#xA;&#x9;partitionMap.put(&quot;age&quot;, String.valueOf(row3.age));&#xA;&#x9;partitionMap.put(&quot;gender&quot;, row3.gender);&#xA;&#xA;&#x9;String location = GlueRoutine.addPartition(context.databaseName, context.tableName, partitionMap);&#xA;&#x9;&#xA;&#x9;String parquetLocation = String.format(&quot;s3a://%s%s-%s.snappy.parquet&quot;, location.replace(&quot;s3://&quot;, &quot;&quot;), new SimpleDateFormat(&quot;yyyy-MM-dd-HH-mm-ss&quot;).format(new Date()), UUID.randomUUID());&#xA;&#x9;&#xA;&#x9;ParquetWriter&lt;GenericData.Record> writer = ParquetRoutine.getWriter(parquetLocation, (Schema) context.parquetSchema);&#x9;&#xA;&#x9;context.currentPartition = String.format(&quot;%s|%s&quot;, row3.age, row3.gender);&#xA;&#x9;context.parquetWriter = writer;&#xA;&#x9;writer.write((GenericData.Record) context.currentParquetRow);&#xA;}&#xA;&#xA;&#xA;&#xA;"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="context.currentParquetRow = new GenericData.Record((Schema) context.parquetSchema);&#xA;((GenericData.Record) context.currentParquetRow).put(&quot;id&quot;, row3.getId());&#xA;((GenericData.Record) context.currentParquetRow).put(&quot;name&quot;, row3.name);&#xA;&#xA;if (context.currentPartition.equals(String.format(&quot;%s|%s&quot;, row3.age, row3.gender))) {&#xA;&#x9;ParquetWriter&lt;GenericData.Record> writer = (ParquetWriter&lt;GenericData.Record>) context.parquetWriter;&#xA;&#x9;writer.write((GenericData.Record) context.currentParquetRow);&#xA;} else {&#xA;&#x9;if (context.parquetWriter instanceof ParquetWriter&lt;?>) {&#xA;&#x9;&#x9;ParquetRoutine.closeWriter((ParquetWriter&lt;GenericData.Record>) context.parquetWriter);&#xA;&#x9;}&#xA;&#x9;&#xA;&#x9;LinkedHashMap&lt;String, String> partitionMap = new LinkedHashMap&lt;String, String>();&#xA;&#x9;&#xA;&#x9;partitionMap.put(&quot;age&quot;, String.valueOf(row3.age));&#xA;&#x9;partitionMap.put(&quot;gender&quot;, row3.gender);&#xA;&#xA;&#x9;String location = GlueRoutine.addPartition(context.databaseName, context.tableName, partitionMap);&#xA;&#x9;&#xA;&#x9;String parquetLocation = String.format(&quot;s3a://%s%s-%s.snappy.parquet&quot;, location.replace(&quot;s3://&quot;, &quot;&quot;), new SimpleDateFormat(&quot;yyyy-MM-dd-HH-mm-ss&quot;).format(new Date()), UUID.randomUUID());&#xA;&#x9;&#xA;&#x9;ParquetWriter&lt;GenericData.Record> writer = ParquetRoutine.getWriter(parquetLocation, (Schema) context.parquetSchema);&#x9;&#xA;&#x9;context.currentPartition = String.format(&quot;%s|%s&quot;, row3.age, row3.gender);&#xA;&#x9;context.parquetWriter = writer;&#xA;&#x9;writer.write((GenericData.Record) context.currentParquetRow);&#xA;}"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="import org.apache.parquet.hadoop.ParquetWriter;&#xA;import org.apache.avro.generic.GenericData;&#xA;import java.util.UUID;&#xA;import java.util.LinkedHashMap;"/>
+    <elementParameter field="TEXT" name="LABEL" value="WriteParquetIntoS3"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tJavaRow_1"/>
   </node>
-  <node componentName="tJava" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="640" posY="96">
+  <node componentName="tJava" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="704" posY="96">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJava_2" show="false"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="ParquetRoutine.closeWriter((ParquetWriter&lt;GenericData.Record>) context.parquetWriter);"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="if (context.parquetWriter instanceof ParquetWriter&lt;?>) {&#xA;&#x9;ParquetRoutine.closeWriter((ParquetWriter&lt;GenericData.Record>) context.parquetWriter);&#xA;}"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
+    <elementParameter field="TEXT" name="LABEL" value="CloseWriterOnFinish"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tJava_2"/>
   </node>
